@@ -39,7 +39,7 @@ class MDSC_Menus {
 		$p_top = add_menu_page(
  			$title,
 			$title,
-        	'manage_options',	// TODO: reduce this to any user.
+        	'edit_posts',
         	$slug_top,
         	array( $this, 'menu_top_html' )
         );
@@ -53,7 +53,7 @@ class MDSC_Menus {
 				$slug_top,
 	 			$title,
 				$title,
-				'manage_options',		
+				'edit_posts',		
 				'mdsc_menu_' . $type,
 				array( $renderer, 'get_html' ) 
 			);

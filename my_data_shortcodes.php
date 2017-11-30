@@ -3,6 +3,7 @@
  * Plugin Name: My Data Shortcodes
  * Version: 1.0
  * Plugin URI: 
+ * GitHub Plugin URI: https://github.com/DerrickRice/my_data_shortcodes
  * Description: Create custom (tabular) data and surface it in posts and pages via shortcodes.
  * Author: Derrick Rice
  * Author URI: http://www.rice.io/

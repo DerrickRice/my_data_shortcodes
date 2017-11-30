@@ -1,12 +1,10 @@
 === My Data Shortcodes ===
-Contributors: dfrice
-Donate link: 
+Contributors: DerrickRice
 Tags: data, shortcodes
 Requires at least: 4.0
 Tested up to: 4.0
-Stable tag: 1.0
-License: GPLv2 or later
-License URI: http://www.gnu.org/licenses/gpl-2.0.html
+License: MIT
+License URI: https://opensource.org/licenses/MIT
 
 Create custom (tabular) data and surface it in posts and pages via shortcodes.
 
