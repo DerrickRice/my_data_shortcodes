@@ -1,0 +1,68 @@
+div.mdsc_admin_entry {
+	padding: 1em;
+	margin-top: 1em;
+	margin-bottom: 1em;
+	background-color: #ffffff;
+	border-radius: 1em;
+	border: 1px solid #636363;
+	border-width: 1px;
+}
+
+/*
+Admin Fields are displayed in a 1x2 grid with the label on the left and the
+element on the right. Labels are aligned top right. Inputs are aligned center
+left.
+ */
+div.mdsc_admin_field {
+    display: grid;
+    grid-template-columns: 30ex auto;
+	margin-top: 2px;
+	margin-bottom: 2px;
+ }
+
+.mdsc_admin_field label {
+	display: block;
+	text-align: right;
+	align-self: start;
+	margin: 5px 1ex 5px 0;
+}
+
+.mdsc_admin_field input, .mdsc_admin_field textarea {
+	align-self: center;
+	margin: 1px;
+}
+
+.mdsc_admin_field input[type=text] {
+	width: 60em;
+}
+
+.mdsc_admin_field textarea {
+	width: 60em;
+	height: 10em;
+}
+
+#mdsc_changereport {
+	list-style-type: disc;
+	color: #770404;
+	list-style-position: inside;
+}
+
+/* Debug wrap stuff. */
+
+.debug_wrap {
+	padding-left: 2em;
+	margin-top: 3px;
+	margin-bottom: 3px;
+}
+
+.debug_toggle {
+	font-style: italic;
+	color: #0d5613;
+}
+
+.debug_info {
+	background-color: #e8ffea;
+	border-radius: 0.5em;
+	padding: 0.5em;
+	margin-top: 0.5em;
+}
