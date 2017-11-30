@@ -7,8 +7,9 @@
  * Description: Create custom (tabular) data and surface it in posts and pages via shortcodes.
  * Author: Derrick Rice
  * Author URI: http://www.rice.io/
- * Requires at least: 4.0
- * Tested up to: 4.0
+ * Requires WP: 4.9.1
+ * Tested up to: 4.9.1
+ * Requeires PHP: 7.0
  *
  * Text Domain: mdsc
  * Domain Path: /lang/
