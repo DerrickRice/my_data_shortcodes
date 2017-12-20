@@ -194,7 +194,7 @@ class MenuRenderer {
 			return null;
 		}
 
-		$data = stripslashes_deep($_POST);
+		$data = MDSC_Hacks::get_real_post();
 		unset($data[$this->form_id()]);
 
 		$new_entries = array();
