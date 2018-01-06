@@ -94,7 +94,10 @@ class MDSC_Data {
 		$this->valid_type_check($type);
 
 		$table_name = $this->table_name( $type );
-		$data = $wpdb->get_results( "SELECT * FROM $table_name;", ARRAY_A );
+		$data = $wpdb->get_results(
+			"SELECT * FROM $table_name ORDER BY id ASC;",
+			ARRAY_A
+		);
 
 		$rv = array();
 		foreach ( $data as $entry ) {
@@ -116,7 +119,7 @@ class MDSC_Data {
 	 * Columns with no default value will be present in the map with the value
 	 * as null.
 	 */
-	public function get_default_values ( $type ) {
+	public function get_default_values ( $type , $tba ) {
 		$schema = $this->get_schema($type);
 		$rv = array('id' => null);
 		foreach ($schema['schema'] as $col_name => $col_info) {
@@ -127,7 +130,7 @@ class MDSC_Data {
 			}
 
 			if (isset($col_info['tba']) && $col_info['tba']) {
-				$rv[$col_name . '_tba'] = 0;
+				$rv[$col_name . '_tba'] = $tba ? 1 : 0;
 			}
 		}
 		return $rv;

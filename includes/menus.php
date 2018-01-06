@@ -123,8 +123,8 @@ class MenuRenderer {
 		return $this->control->data->get_sql_format_strings($this->type);
 	}
 
-	public function get_default_values () {
-		return $this->control->data->get_default_values($this->type);
+	public function get_default_values ($tba = false) {
+		return $this->control->data->get_default_values($this->type, $tba);
 	}
 
 	public function format_for_sql($entry) {
@@ -163,7 +163,13 @@ class MenuRenderer {
 		}
 
 		$html .= HtmlGen::elem('div', array('class' => 'mdsc_admin_entry new_entry'));
-		$html .= $this->form_fields(null);
+		$html .= $this->textarea_input(
+			'__new_ids__',
+			'__new_ids__',
+			'',
+			__('New IDs', 'mdsc'),
+			''
+		);
 		$html .= '</div>';
 
 		$html .= HtmlGen::celem(
@@ -198,6 +204,19 @@ class MenuRenderer {
 		unset($data[$this->form_id()]);
 
 		$new_entries = array();
+
+		if ( isset($data['__new_ids__']) ) {
+			$parts = preg_split('/\s+/', $data['__new_ids__']);
+			foreach ($parts as $new_id) {
+				if ( empty($new_id) ) {
+					continue;
+				}
+				$new_entries[$new_id] = $this->get_default_values(true);
+				$new_entries[$new_id]['id'] = $new_id;
+			}
+			unset($data['__new_ids__']);
+		}
+
 		foreach ($data as $name => $value) {
 			$parts = explode('-', $name);
 			if (count($parts) != 2 ) {
@@ -226,7 +245,6 @@ class MenuRenderer {
 		}
 
 		// VALIDATE HERE
-		// __new__ must have an ID set if any of its fields are set.
 		// Must not be any duplicate IDs in union of new and old.
 
 		$old_entries = $this->control->data->get_data($this->type);
@@ -238,7 +256,7 @@ class MenuRenderer {
 				$old_entry = $old_entries[$original_id];
 			}
 
-			if ($original_id == '__new__' && $entry['id'] != '') {
+			if ($old_entry == null && $original_id == $entry['id']) {
 				// INSERTION
 				list($data, $formats) = $this->format_for_sql($entry);
 
@@ -249,8 +267,6 @@ class MenuRenderer {
 				} else {
 					$changes[] = 'Added new entry with ID ' . $entry['id'];
 				}
-			} elseif ($original_id == '__new__') {
-				continue;
 			} elseif ($old_entry == null) {
 				$changes[] = "Failed to find $original_id in existing data.";
 			} elseif (isset($entry['__delete'])) {
@@ -334,20 +350,11 @@ class MenuRenderer {
 	}
 
 	private function form_fields ($entry) {
-		if (is_null($entry)) {
-			$entry_id = '__new__';
-			$entry = array();
-			$can_delete = false;
-		} else {
-			$entry_id = $entry['id'];
-			$can_delete = true;
-		}
-
 		// add the implicit (but important) id field
 		$html = $this->text_input(
 			'id',
-			"$entry_id-id",
-			isset($entry['id']) ? $entry['id'] : '',
+			$entry['id'] . '-id',
+			$entry['id'],
 			__('Entry ID', 'mdsc'),
 			'placeholder="New ID here"'
 		);
@@ -356,7 +363,7 @@ class MenuRenderer {
 			if ($finfo['input'] == 'text') {
 				$html .= $this->text_input(
 					$field,
-					"$entry_id-$field",
+					$entry['id'] . '-' . $field,
 					isset($entry[$field]) ? $entry[$field] : '',
 					$finfo['print_name'],
 					$finfo['attrs']
@@ -364,7 +371,7 @@ class MenuRenderer {
 			} elseif ($finfo['input'] == 'textarea') {
 				$html .= $this->textarea_input(
 					$field,
-					"$entry_id-$field",
+					$entry['id'] . '-' . $field,
 					isset($entry[$field]) ? $entry[$field] : '',
 					$finfo['print_name'],
 					$finfo['attrs']
@@ -376,8 +383,8 @@ class MenuRenderer {
 			if ($finfo['tba']) {
 				$tba_field = $field . '_tba';
 				$html .= $this->checkbox_input(
-					"$tba_field",
-					"$entry_id-$tba_field",
+					$tba_field,
+					$entry['id'] . '-' . $tba_field,
 					isset($entry[$tba_field]) ? $entry[$tba_field] : false,
 					$finfo['print_name'] . __(' TBA?', 'mdsc'),
 					''
@@ -385,15 +392,13 @@ class MenuRenderer {
 			}
 		}
 
-		if ($can_delete) {
-			$html .= $this->checkbox_input(
-				'__delete',
-				"$entry_id-__delete",
-				false,
-				__('Delete this entry?', 'sweemo'),
-				''
-			);
-		}
+		$html .= $this->checkbox_input(
+			'__delete',
+			$entry['id'] . '-__delete',
+			false,
+			__('Delete this entry?', 'sweemo'),
+			''
+		);
 
 		return $html;
 	}
