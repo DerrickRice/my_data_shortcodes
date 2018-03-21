@@ -30,6 +30,13 @@ $MDSC_schema = array(
 				'tba' => true,
 				'print_name' => 'Class Description',
 			),
+			'level' => array(
+				'type' => 'varchar(256)',
+				'input' => 'textarea',
+				'attrs' => '',
+				'tba' => true,
+				'print_name' => 'Level',
+			),
 			'notes' => array(
 				'type' => 'varchar(512)',
 				'input' => 'textarea',

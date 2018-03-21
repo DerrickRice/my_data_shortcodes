@@ -18,7 +18,7 @@ class MDSC_Menus {
 	private $control = null;
 
 	public function __construct ( $control ) {
-		$this->control = $control;		
+		$this->control = $control;
 
 		// Add menus
 		add_action( 'admin_menu' , array( $this, 'add_menu_items' ), 9 );
@@ -53,16 +53,16 @@ class MDSC_Menus {
 				$slug_top,
 	 			$title,
 				$title,
-				'edit_posts',		
+				'edit_posts',
 				'mdsc_menu_' . $type,
-				array( $renderer, 'get_html' ) 
+				array( $renderer, 'get_html' )
 			);
 		}
 	}
 
 	public function menu_top_html () {
 		$html = '<div class="wrap mdsc_menu" id="mdsc_menu_top">';
-		
+
 		$html .= esc_html('Hello, user. ');
 
 		$html .= '</div>';
@@ -141,7 +141,7 @@ class MenuRenderer {
 
 	public function get_html () {
 		$form_id = $this->form_id();
-	
+
 		$html = HtmlGen::elem('div', array('class' => 'wrap mdsc_menu', 'id' => $form_id));
 
 		$html .= $this->handle_post();
@@ -195,7 +195,7 @@ class MenuRenderer {
 	}
 
 	private function new_entries_from_post_data () {
-		// array_key_exists 
+		// array_key_exists
 		if ( ! isset($_POST[$this->form_id()]) ) {
 			return null;
 		}
