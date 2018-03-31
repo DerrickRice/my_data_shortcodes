@@ -3,6 +3,7 @@
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 require_once('util.php');
+require_once('html.php');
 
 class MDSC_Menus {
 
@@ -376,8 +377,16 @@ class MenuRenderer {
 					$finfo['print_name'],
 					$finfo['attrs']
 				);
+			} elseif ($finfo['input'] == 'richtext') {
+				$html .= $this->richtext_input(
+					$field,
+					$entry['id'] . '-' . $field,
+					isset($entry[$field]) ? $entry[$field] : '',
+					$finfo['print_name'],
+					$finfo['attrs']
+				);
 			} else {
-				$html .= 'NOT SUPPORTED<br/>';
+				$html .= 'MDSC TYPE NOT SUPPORTED<br/>';
 			}
 
 			if ($finfo['tba']) {
@@ -422,6 +431,31 @@ class MenuRenderer {
 		);
 		$html .= esc_textarea($value);
 		$html .= '</textarea>';
+
+		$html .= '</div>';
+
+		return $html;
+	}
+
+
+	private function richtext_input ($field, $input_id, $value, $label, $extra_attr) {
+		$html = HtmlGen::elem('div', array(
+			'class' => 'mdsc_admin_field',
+			'data-field' => $field
+		));
+
+		$html .= HtmlGen::elem('label', array('for' => $input_id));
+		$html .= esc_html($label) . '</label>';
+
+		ob_start();
+		$args = array(
+			'media_buttons' => false,
+			'textarea_rows' => 15,
+			'wpautop' => false
+		);
+		wp_editor($value, $input_id, $args);
+		$html .= ob_get_contents();
+		ob_end_clean();
 
 		$html .= '</div>';
 

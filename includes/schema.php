@@ -91,6 +91,13 @@ $MDSC_schema = array(
 				'tba' => false,
 				'print_name' => 'Name',
 			),
+			'shortname' => array(
+				'type' => 'varchar(256)',
+				'input' => 'text',
+				'attrs' => '',
+				'tba' => false,
+				'print_name' => 'Short name',
+			),
 			'role' => array(
 				'type' => 'varchar(256)',
 				'input' => 'text',
@@ -107,7 +114,7 @@ $MDSC_schema = array(
 			),
 			'bio' => array(
 				'type' => 'varchar(2048)',
-				'input' => 'textarea',
+				'input' => 'richtext',
 				'attrs' => '',
 				'tba' => true,
 				'print_name' => 'Bio',

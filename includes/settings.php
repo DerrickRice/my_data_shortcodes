@@ -1,5 +1,7 @@
 <?php
 
+require_once('html.php');
+
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 class MDSC_Settings {
@@ -62,13 +64,13 @@ class MDSC_Settings {
 			__( 'Settings', 'mdsc' ) ,
 			'manage_options',
 			'mdsc_menu_settings',
-			array( $this, 'settings_page' ) 
+			array( $this, 'settings_page' )
 		);
 
 		if ($page) {
 			add_action(
-				'admin_print_styles-' . $page, 
-				array( $this, 'settings_assets' ) 
+				'admin_print_styles-' . $page,
+				array( $this, 'settings_assets' )
 			);
 		}
 	}
