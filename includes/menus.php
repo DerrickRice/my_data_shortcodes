@@ -108,12 +108,22 @@ class MDSC_Menus {
 }
 
 class MenuRenderer {
+	private $base10_in;
+	private $baseaz_out;
 	public $type;
 	private $control;
 
 	public function __construct ( $type, $control ) {
 		$this->type = $type;
 		$this->control = $control;
+		$this->base10_in = array(
+			'0', '1', '2', '3', '4',
+			'5', '6', '7', '8' , '9'
+		);
+		$this->baseaz_out = array(
+			'a', 'b', 'c', 'd', 'e',
+			'f', 'g', 'h', 'i', 'j'
+		);
 	}
 
 	public function get_schema () {
@@ -451,15 +461,41 @@ class MenuRenderer {
 		$args = array(
 			'media_buttons' => false,
 			'textarea_rows' => 15,
-			'wpautop' => false
+			'wpautop' => false,
+			'textarea_name' => $input_id
 		);
-		wp_editor($value, $input_id, $args);
+		wp_editor($value, self::make_safe_wp_editor_id($input_id), $args);
 		$html .= ob_get_contents();
 		ob_end_clean();
 
 		$html .= '</div>';
 
 		return $html;
+	}
+
+	private function make_safe_wp_editor_id($input_id) {
+		$len = strlen($input_id);
+
+		$characters = array();
+
+		for ($i = 0; $i<$len; $i++) {
+			$char = $input_id[$i];
+			if ($char >= 'a' && $char <= 'z') {
+				$characters[] = $char;
+			} else {
+				// WARNING: This should probably use mb_ord or equivalent, but
+				// I am making the brave assumption that everything is ASCII.
+				$base10 = (string) ord($char);	// max 255
+				$baseaz = str_replace(
+					$this->base10_in,
+					$this->baseaz_out,
+					$base10
+				);
+				$characters[] = "_${baseaz}_";
+			}
+		}
+
+		return implode('', $characters);
 	}
 
 	private function text_input ($field, $input_id, $value, $label, $extra_attr) {
