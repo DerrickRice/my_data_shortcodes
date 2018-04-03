@@ -128,4 +128,52 @@ $MDSC_schema = array(
 			),
 		),
 	),
+	'venue' => array(
+		'print_name' => 'Venues',
+		'schema' => array(
+			// 'id' is always included implicity as varchar(64) / text input.
+			'name' => array(
+				'type' => 'varchar(256)',
+				'input' => 'text',
+				'attrs' => '',
+				'tba' => true,
+				'print_name' => 'Name',
+			),
+			'shortname' => array(
+				'type' => 'varchar(256)',
+				'input' => 'text',
+				'attrs' => '',
+				'tba' => false,
+				'print_name' => 'Short name',
+			),
+			'events' => array(
+				'type' => 'varchar(256)',
+				'input' => 'text',
+				'attrs' => '',
+				'tba' => false,
+				'print_name' => 'Events/Uses',
+			),
+			'img' => array(
+				'type' => 'varchar(256)',
+				'input' => 'text',
+				'attrs' => '',
+				'tba' => true,
+				'print_name' => 'Image URL',
+			),
+			'content' => array(
+				'type' => 'varchar(2048)',
+				'input' => 'richtext',
+				'attrs' => '',
+				'tba' => true,
+				'print_name' => 'Content',
+			),
+			'notes' => array(
+				'type' => 'varchar(512)',
+				'input' => 'textarea',
+				'attrs' => '',
+				'tba' => false,
+				'print_name' => 'Internal Notes',
+			),
+		),
+	),
 );
