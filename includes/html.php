@@ -104,3 +104,5 @@ class HtmlGen {
 		return $rv;
 	}
 }
+
+1;

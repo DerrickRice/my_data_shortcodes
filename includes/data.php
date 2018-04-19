@@ -84,7 +84,7 @@ class MDSC_Data {
 
 	/*
 	 * Get a full set of data as a map of maps.
-	 * 
+	 *
 	 * @returns Map ( ID ) => ( Map ( ColName ) => ( Value ) )
 	 */
 	public function get_data ( $type ) {
@@ -149,7 +149,7 @@ class MDSC_Data {
 				throw new Exception("SQL format unknown for type {$col_info['type']}");
 			}
 
-			
+
 			if (isset($col_info['tba']) && $col_info['tba']) {
 				$rv[$col_name . '_tba'] = '%d';
 			}
@@ -223,3 +223,5 @@ class MDSC_Data {
 	} // End __wakeup()
 
 }
+
+1;
