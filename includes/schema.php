@@ -176,4 +176,31 @@ $MDSC_schema = array(
 			),
 		),
 	),
+	'tags' => array(
+		'print_name' => 'Tags',
+		'schema' => array(
+			// 'id' is always included implicity as varchar(64) / text input.
+			'name' => array(
+				'type' => 'varchar(256)',
+				'input' => 'text',
+				'attrs' => '',
+				'tba' => true,
+				'print_name' => 'Name',
+			),
+			'shortname' => array(
+				'type' => 'varchar(256)',
+				'input' => 'text',
+				'attrs' => '',
+				'tba' => false,
+				'print_name' => 'Short name',
+			),
+			'description' => array(
+				'type' => 'varchar(2048)',
+				'input' => 'richtext',
+				'attrs' => '',
+				'tba' => true,
+				'print_name' => 'Content',
+			),
+		),
+	),
 );
