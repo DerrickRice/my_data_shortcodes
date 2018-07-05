@@ -20,8 +20,15 @@ $MDSC_schema = array(
 				'type' => 'varchar(256)',
 				'input' => 'text',
 				'attrs' => '',
-				'tba' => true,
+				'tba' => false,
 				'print_name' => 'Teachers',
+			),
+			'teacher_tags' => array(
+				'type' => 'varchar(256)',
+				'input' => 'text',
+				'attrs' => '',
+				'tba' => false,
+				'print_name' => 'Teacher IDs',
 			),
 			'description' => array(
 				'type' => 'varchar(2048)',
@@ -29,13 +36,6 @@ $MDSC_schema = array(
 				'attrs' => '',
 				'tba' => true,
 				'print_name' => 'Class Description',
-			),
-			'level' => array(
-				'type' => 'varchar(256)',
-				'input' => 'textarea',
-				'attrs' => '',
-				'tba' => true,
-				'print_name' => 'Level (deprecated)',
 			),
 			'tags' => array(
 				'type' => 'varchar(256)',
