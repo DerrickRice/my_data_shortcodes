@@ -280,12 +280,12 @@ class MDSC {
 
 	// return an array of strings indicating which updates have been completed.
 	public function get_update_flags() {
-		$flags_string = get_option( 'mdsc_update_flags' );
-		if (empty($flags_string)) {
+		$flags = get_option( 'mdsc_update_flags' );
+		if (empty($flags)) {
 			return array();
 		}
 
-		return json_decode($flags_string);
+		return $flags;
 	}
 
 	public function has_update_flag($flag) {
@@ -301,9 +301,7 @@ class MDSC {
 		}
 
 		$update_flags[] = $flag;
-		$flags_string = json_encode($update_flags);
 		update_option( 'mdsc_update_flags' , $update_flags );
-
 		error_log("MDSC update flag '$flag' marked");
 	}
 
