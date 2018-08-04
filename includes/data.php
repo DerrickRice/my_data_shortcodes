@@ -34,6 +34,11 @@ class MDSC_Data {
 	 */
 	public function install () {
 		$this->make_or_update_classes_table();
+
+		if (! $this->parent->has_update_flag('richtext_class_desc')) {
+			$this->update_richtext_class_desc();
+			$this->parent->add_update_flag('richtext_class_desc');
+		}
 	} // End install ()
 
 	// Part of install()
@@ -54,9 +59,47 @@ class MDSC_Data {
 			}
 			$create_sql .= "PRIMARY KEY  (id)\n) $charset_collate;";
 
-			error_log("#dfr-trace: Creating table for '$type'.");
+			error_log("MDSC creating/updating table for '$type'.");
 			dbDelta( $create_sql );
 		}
+	}
+
+	private function update_richtext_class_desc() {
+		global $wpdb;
+
+		error_log("MDSC updating class descriptions to rich text");
+
+		$classes = $this->get_data('class');
+		$table_name = $this->table_name('class');
+
+		$updates_run = 0;
+		$rows_success = 0;
+		$failures = 0;
+
+		foreach ($classes as $id => $dmap) {
+			$description = $dmap['description'];
+
+			if (empty($description)) {
+				continue;
+			}
+
+			$rv = $wpdb->update(
+				$table_name,
+				array('description' => esc_html($description)), 	// data
+				array('id' => $id),				// where
+				array('%s'),					// data formats
+				array('%s')						// where format
+			);
+
+			$updates_run++;
+			if ($rv === false) {
+				$failures++;
+			} else {
+				$rows_success += $rv;
+			}
+		}
+
+		error_log("MDSC updated class descriptions: $updates_run update calls, $failures failures, $rows_success rows updated.");
 	}
 
 	/*

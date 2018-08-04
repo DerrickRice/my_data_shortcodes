@@ -32,7 +32,7 @@ $MDSC_schema = array(
 			),
 			'description' => array(
 				'type' => 'varchar(2048)',
-				'input' => 'textarea',
+				'input' => 'richtext',
 				'attrs' => '',
 				'tba' => true,
 				'print_name' => 'Class Description',

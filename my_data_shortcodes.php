@@ -1,7 +1,7 @@
 <?php
 /*
  * Plugin Name: My Data Shortcodes
- * Version: 1.5.0
+ * Version: 1.6.2
  * Plugin URI:
  * GitHub Plugin URI: https://github.com/DerrickRice/my_data_shortcodes
  * Description: Create custom (tabular) data and surface it in posts and pages via shortcodes.
@@ -34,7 +34,7 @@ require_once( 'includes/lib/mydata-admin-api.php' );
  * @return object MDSC
  */
 function MDSC () {
-	$instance = MDSC::instance( __FILE__, '1.0.0' );
+	$instance = MDSC::instance( __FILE__, '1.6.2' );
 
 	return $instance;
 }

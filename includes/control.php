@@ -76,7 +76,10 @@ class MDSC {
 		$this->assets_dir = trailingslashit( $this->dir ) . 'assets';
 		$this->assets_url = esc_url( trailingslashit( plugins_url( '/assets/', $this->file ) ) );
 
+		// Activation takes place just once
 		register_activation_hook( $this->file, array( $this, 'install' ) );
+		// using plugins_loaded to detect updates.
+		add_action( 'plugins_loaded', array( $this, 'check_for_update' ) );
 
 		// Load admin JS & CSS
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ), 10, 1 );
@@ -117,7 +120,7 @@ class MDSC {
 		}
 		$rv .= "]";
 		return $rv;
-	} 
+	}
 
 	public function handle_shortcode ($attrs = null, $content = null, $tag = null) {
 		if (! $attrs) {
@@ -275,25 +278,47 @@ class MDSC {
 		_doing_it_wrong( __FUNCTION__, __( 'Cheatin&#8217; huh?' ), $this->_version );
 	} // End __wakeup ()
 
-	/**
-	 * Installation. Runs on activation.
-	 * @access  public
-	 * @since   1.0.0
-	 * @return  void
-	 */
+	// return an array of strings indicating which updates have been completed.
+	public function get_update_flags() {
+		$flags_string = get_option( 'mdsc_update_flags' );
+		if (empty($flags_string)) {
+			return array();
+		}
+
+		return json_decode($flags_string);
+	}
+
+	public function has_update_flag($flag) {
+		$update_flags = $this->get_update_flags();
+		return in_array($flag, $update_flags);
+	}
+
+	public function add_update_flag($flag) {
+		$update_flags = $this->get_update_flags();
+		if (in_array($flag, $update_flags)) {
+			error_log("MDSC update flag '$flag' is already set.");
+			return;
+		}
+
+		$update_flags[] = $flag;
+		$flags_string = json_encode($update_flags);
+		update_option( 'mdsc_update_flags' , $update_flags );
+
+		error_log("MDSC update flag '$flag' marked");
+	}
+
+	/** Plugin activiation */
 	public function install () {
-		$this->_log_version_number();
-		$this->data->install();
-	} // End install ()
-
-	/**
-	 * Log the plugin version number.
-	 * @access  public
-	 * @since   1.0.0
-	 * @return  void
-	 */
-	private function _log_version_number () {
 		update_option( 'mdsc_version', $this->_version );
-	} // End _log_version_number ()
+		$this->data->install();
+	}
 
+	public function check_for_update() {
+		$previous_version = get_option('mdsc_version');
+		$current_version = $this->_version;
+		if ($previous_version != $current_version) {
+			error_log("MDSC update from $previous_version to $current_version.");
+			$this->install();
+		}
+	}
 }
