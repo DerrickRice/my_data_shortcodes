@@ -34,9 +34,9 @@ require_once( 'includes/lib/mydata-admin-api.php' );
  * @return object MDSC
  */
 function MDSC () {
-	$instance = MDSC::instance( __FILE__, '1.6.2' );
+  $instance = MDSC::instance( __FILE__, '1.6.2' );
 
-	return $instance;
+  return $instance;
 }
 
 MDSC();
