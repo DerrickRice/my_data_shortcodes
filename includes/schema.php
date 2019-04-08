@@ -351,43 +351,4 @@ $MDSC_schema = array(
       ),
     ),
   ),
-  'food' => array(
-    'print_name' => 'Food',
-    'schema' => array(
-      // 'id' is always included implicity as varchar(64) / text input.
-      'longname' => array(
-        'type' => 'varchar(256)',
-        'input' => 'text',
-        'attrs' => '',
-        'print_name' => 'User-facing name',
-      ),
-      'published' => array(
-        'type' => 'boolean',
-        'input' => 'checkbox',
-        'attrs' => '',
-        'print_name' => 'Published',
-      ),
-      'content' => array(
-        'type' => 'varchar(4096)',
-        'input' => 'richtext',
-        'attrs' => '',
-        'tba' => false,
-        'print_name' => 'Content',
-      ),
-      'price' => array(
-        'type' => 'decimal(6,2)',
-        'input' => 'number',
-        'attrs' => 'min="0" step="0.01"',
-        'tba' => false,
-        'print_name' => 'Price, USD',
-      ),
-      'sort_id' => array(
-        'type' => 'decimal(6,0)',
-        'input' => 'number',
-        'attrs' => 'min="0" step="1"',
-        'tba' => false,
-        'print_name' => 'Order',
-      ),
-    ),
-  ),
 );
